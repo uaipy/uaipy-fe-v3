@@ -21,4 +21,4 @@ export interface AnalyticsData {
     humidity: ClimateData[];
   };
   deviceTypes: DeviceData[];
-} 
+}

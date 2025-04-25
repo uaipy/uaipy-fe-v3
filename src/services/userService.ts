@@ -28,4 +28,4 @@ export class UserService {
   static async deleteUser(id: number): Promise<void> {
     return ApiService.delete(`${this.BASE_PATH}/${id}`);
   }
-} 
+}

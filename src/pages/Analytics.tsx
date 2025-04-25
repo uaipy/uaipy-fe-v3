@@ -1,5 +1,11 @@
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   AreaChart,
   Area,
@@ -10,12 +16,12 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  Legend
-} from "recharts";
-import { useEffect, useState } from "react";
-import { getAnalyticsData } from "@/services/analyticsService";
-import { AnalyticsData } from "@/types/analytics";
-import { Loader2 } from "lucide-react";
+  Legend,
+} from 'recharts';
+import { useEffect, useState } from 'react';
+import { getAnalyticsData } from '@/services/analyticsService';
+import { AnalyticsData } from '@/types/analytics';
+import { Loader2 } from 'lucide-react';
 
 const Analytics = () => {
   const [data, setData] = useState<AnalyticsData | null>(null);
@@ -29,7 +35,7 @@ const Analytics = () => {
         setData(response);
         setSelectedDate(response.climate.date[0]); // Inicializa com a primeira data
       } catch (error) {
-        console.error("Erro ao carregar dados:", error);
+        console.error('Erro ao carregar dados:', error);
       } finally {
         setLoading(false);
       }
@@ -41,25 +47,44 @@ const Analytics = () => {
   if (loading || !data) {
     return (
       <DashboardLayout>
-        <div className="flex flex-col items-center justify-center h-screen gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Carregando dados de analytics...</p>
+        <div className="flex h-screen flex-col items-center justify-center gap-4">
+          <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          <p className="text-muted-foreground">
+            Carregando dados de analytics...
+          </p>
         </div>
       </DashboardLayout>
     );
   }
 
-  const CustomTooltip = ({ active, payload, label }: { active: boolean, payload: { name: string, value: number, color: string }[], label: string }) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active: boolean;
+    payload: { name: string; value: number; color: string }[];
+    label: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-background border rounded-lg p-3 shadow-md">
+        <div className="bg-background rounded-lg border p-3 shadow-md">
           <p className="font-medium">{label}</p>
-          {payload.map((entry: { name: string, value: number, color: string }, index: number) => (
-            <p key={index} style={{ color: entry.color }}>
-              {entry.name}: {entry.value}
-              {entry.name.includes("Temperatura") ? "°C" : entry.name.includes("Umidade") ? "%" : ""}
-            </p>
-          ))}
+          {payload.map(
+            (
+              entry: { name: string; value: number; color: string },
+              index: number,
+            ) => (
+              <p key={index} style={{ color: entry.color }}>
+                {entry.name}: {entry.value}
+                {entry.name.includes('Temperatura')
+                  ? '°C'
+                  : entry.name.includes('Umidade')
+                    ? '%'
+                    : ''}
+              </p>
+            ),
+          )}
         </div>
       );
     }
@@ -69,40 +94,56 @@ const Analytics = () => {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight pb-1">Dashboard de Analytics</h1>
-        <p className="text-muted-foreground">Visualize e analise os dados do sistema em tempo real</p>
-        <p className="text-amber-500 font-bold">PAGINA EM DESENVOLVIMENTO</p>
+        <h1 className="pb-1 text-3xl font-semibold tracking-tight">
+          Dashboard de Analytics
+        </h1>
+        <p className="text-muted-foreground">
+          Visualize e analise os dados do sistema em tempo real
+        </p>
+        <p className="font-bold text-amber-500">PAGINA EM DESENVOLVIMENTO</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <Card className="h-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Dispositivos</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total de Dispositivos
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.devices.total.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">{data.devices.totalChange}</p>
+            <div className="text-2xl font-bold">
+              {data.devices.total.toLocaleString()}
+            </div>
+            <p className="text-muted-foreground text-xs">
+              {data.devices.totalChange}
+            </p>
           </CardContent>
         </Card>
         <Card className="h-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Taxa de Atividade</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Taxa de Atividade
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.devices.activityRate}%</div>
-            <p className="text-xs text-muted-foreground">{data.devices.activityChange}</p>
+            <div className="text-2xl font-bold">
+              {data.devices.activityRate}%
+            </div>
+            <p className="text-muted-foreground text-xs">
+              {data.devices.activityChange}
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mb-8">
+      <div className="mb-8 grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Temperatura do Ar (°C)</CardTitle>
             <CardDescription>
-              Amostras de temperatura do ar em{" "}
+              Amostras de temperatura do ar em{' '}
               <select
-                className="inline-block border rounded px-2 py-1"
+                className="inline-block rounded border px-2 py-1"
                 value={selectedDate}
                 onChange={(e) => {
                   setSelectedDate(e.target.value);
@@ -113,7 +154,7 @@ const Analytics = () => {
                     {new Date(date).toLocaleDateString('pt-BR', {
                       day: '2-digit',
                       month: '2-digit',
-                      year: 'numeric'
+                      year: 'numeric',
                     })}
                   </option>
                 ))}
@@ -132,8 +173,18 @@ const Analytics = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
+                  <YAxis
+                    label={{
+                      value: 'Temperatura (°C)',
+                      angle: -90,
+                      position: 'insideLeft',
+                    }}
+                  />
+                  <Tooltip
+                    content={
+                      <CustomTooltip active={true} payload={[]} label={''} />
+                    }
+                  />
                   <Legend />
                   <Area
                     name="Temperatura"
@@ -159,7 +210,13 @@ const Analytics = () => {
                 <BarChart data={data.deviceTypes}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis label={{ value: 'Quantidade', angle: -90, position: 'insideLeft' }} />
+                  <YAxis
+                    label={{
+                      value: 'Quantidade',
+                      angle: -90,
+                      position: 'insideLeft',
+                    }}
+                  />
                   <Tooltip />
                   <Legend />
                   <Bar name="Quantidade" dataKey="value" fill="#8884d8" />
@@ -170,14 +227,14 @@ const Analytics = () => {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 mb-8">
+      <div className="mb-8 grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Umidade do Ar (%)</CardTitle>
             <CardDescription>
-              Amostras de umidade do ar em{" "}
+              Amostras de umidade do ar em{' '}
               <select
-                className="inline-block border rounded px-2 py-1"
+                className="inline-block rounded border px-2 py-1"
                 value={selectedDate}
                 onChange={(e) => {
                   setSelectedDate(e.target.value);
@@ -188,7 +245,7 @@ const Analytics = () => {
                     {new Date(date).toLocaleDateString('pt-BR', {
                       day: '2-digit',
                       month: '2-digit',
-                      year: 'numeric'
+                      year: 'numeric',
                     })}
                   </option>
                 ))}
@@ -200,15 +257,31 @@ const Analytics = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data.climate.humidity}>
                   <defs>
-                    <linearGradient id="colorValue3" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient
+                      id="colorValue3"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
                       <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
                       <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis label={{ value: 'Umidade (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
+                  <YAxis
+                    label={{
+                      value: 'Umidade (%)',
+                      angle: -90,
+                      position: 'insideLeft',
+                    }}
+                  />
+                  <Tooltip
+                    content={
+                      <CustomTooltip active={true} payload={[]} label={''} />
+                    }
+                  />
                   <Legend />
                   <Area
                     name="Umidade"
@@ -230,43 +303,98 @@ const Analytics = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-6">
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+              <div className="bg-muted/50 flex items-center justify-between rounded-lg p-4">
                 <div>
-                  <h3 className="text-sm font-medium text-muted-foreground">Temperatura Média</h3>
-                  <p className="text-2xl font-bold mt-1">
-                    {(data.climate.temperature.reduce((acc, curr) => acc + curr.value, 0) / data.climate.temperature.length).toFixed(1)}°C
+                  <h3 className="text-muted-foreground text-sm font-medium">
+                    Temperatura Média
+                  </h3>
+                  <p className="mt-1 text-2xl font-bold">
+                    {(
+                      data.climate.temperature.reduce(
+                        (acc, curr) => acc + curr.value,
+                        0,
+                      ) / data.climate.temperature.length
+                    ).toFixed(1)}
+                    °C
                   </p>
                 </div>
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary"
+                  >
                     <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0Z"></path>
                   </svg>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+              <div className="bg-muted/50 flex items-center justify-between rounded-lg p-4">
                 <div>
-                  <h3 className="text-sm font-medium text-muted-foreground">Umidade Média</h3>
-                  <p className="text-2xl font-bold mt-1">
-                    {(data.climate.humidity.reduce((acc, curr) => acc + curr.value, 0) / data.climate.humidity.length).toFixed(1)}%
+                  <h3 className="text-muted-foreground text-sm font-medium">
+                    Umidade Média
+                  </h3>
+                  <p className="mt-1 text-2xl font-bold">
+                    {(
+                      data.climate.humidity.reduce(
+                        (acc, curr) => acc + curr.value,
+                        0,
+                      ) / data.climate.humidity.length
+                    ).toFixed(1)}
+                    %
                   </p>
                 </div>
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary"
+                  >
                     <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
                   </svg>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+              <div className="bg-muted/50 flex items-center justify-between rounded-lg p-4">
                 <div>
-                  <h3 className="text-sm font-medium text-muted-foreground">Dispositivo Mais Comum</h3>
-                  <p className="text-2xl font-bold mt-1">
-                    {data.deviceTypes.reduce((max, curr) => curr.value > max.value ? curr : max).name}
+                  <h3 className="text-muted-foreground text-sm font-medium">
+                    Dispositivo Mais Comum
+                  </h3>
+                  <p className="mt-1 text-2xl font-bold">
+                    {
+                      data.deviceTypes.reduce((max, curr) =>
+                        curr.value > max.value ? curr : max,
+                      ).name
+                    }
                   </p>
                 </div>
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary"
+                  >
                     <rect width="18" height="18" x="3" y="3" rx="2"></rect>
                     <path d="M3 9h18"></path>
                     <path d="M9 21V9"></path>

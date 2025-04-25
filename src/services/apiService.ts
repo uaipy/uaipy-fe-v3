@@ -55,4 +55,4 @@ export class ApiService {
       console.error('Erro:', error.message);
     }
   }
-} 
+}

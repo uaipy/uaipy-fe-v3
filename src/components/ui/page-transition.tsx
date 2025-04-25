@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -39,17 +38,14 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   };
 
   return (
-    <div 
+    <div
       ref={scrollRef}
-      className={cn(
-        'h-full w-full overflow-auto',
-        className
-      )}
+      className={cn('h-full w-full overflow-auto', className)}
     >
       <div
         className={cn(
           transitionStage === 'fadeIn' ? 'animate-fade-in' : 'animate-fade-out',
-          'min-h-full'
+          'min-h-full',
         )}
         onAnimationEnd={handleAnimationEnd}
       >
