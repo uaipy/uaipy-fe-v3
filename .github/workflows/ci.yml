@@ -1,0 +1,36 @@
+name: UAI.py Dashboard CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'pnpm'
+
+    - run: pnpm install --frozen-lockfile
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Linting
+      run: pnpm ci:lint
+
+    - name: Typechecking
+      run: pnpm typecheck
+
+    - name: Tests
+      run: pnpm ci:test
+
