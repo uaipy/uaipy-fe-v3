@@ -47,12 +47,12 @@ const Analytics = () => {
     );
   }
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: { active: boolean, payload: { name: string, value: number, color: string }[], label: string }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-background border rounded-lg p-3 shadow-md">
           <p className="font-medium">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry: { name: string, value: number, color: string }, index: number) => (
             <p key={index} style={{ color: entry.color }}>
               {entry.name}: {entry.value}
               {entry.name.includes("Temperatura") ? "°C" : entry.name.includes("Umidade") ? "%" : ""}
@@ -114,7 +114,7 @@ const Analytics = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
                   <Legend />
                   <Area 
                     name="Temperatura Atual" 
@@ -181,7 +181,7 @@ const Analytics = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis label={{ value: 'Umidade (%)', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
                   <Legend />
                   <Area 
                     name="Umidade Atual" 
