@@ -4,9 +4,8 @@ export interface DeviceData {
 }
 
 export interface ClimateData {
-  name: string;
+  time: string;
   value: number;
-  prevValue: number;
 }
 
 export interface AnalyticsData {
@@ -17,6 +16,7 @@ export interface AnalyticsData {
     activityChange: string;
   };
   climate: {
+    date: string[];
     temperature: ClimateData[];
     humidity: ClimateData[];
   };

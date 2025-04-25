@@ -1,12 +1,12 @@
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -20,12 +20,14 @@ import { Loader2 } from "lucide-react";
 const Analytics = () => {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getAnalyticsData();
         setData(response);
+        setSelectedDate(response.climate.date[0]); // Inicializa com a primeira data
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
@@ -69,6 +71,7 @@ const Analytics = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-semibold tracking-tight pb-1">Dashboard de Analytics</h1>
         <p className="text-muted-foreground">Visualize e analise os dados do sistema em tempo real</p>
+        <p className="text-amber-500 font-bold">PAGINA EM DESENVOLVIMENTO</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
@@ -96,6 +99,26 @@ const Analytics = () => {
         <Card>
           <CardHeader>
             <CardTitle>Temperatura do Ar (°C)</CardTitle>
+            <CardDescription>
+              Amostras de temperatura do ar em{" "}
+              <select
+                className="inline-block border rounded px-2 py-1"
+                value={selectedDate}
+                onChange={(e) => {
+                  setSelectedDate(e.target.value);
+                }}
+              >
+                {data.climate.date.map((date) => (
+                  <option key={date} value={date}>
+                    {new Date(date).toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    })}
+                  </option>
+                ))}
+              </select>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
@@ -103,12 +126,8 @@ const Analytics = () => {
                 <AreaChart data={data.climate.temperature}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorPrevValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -116,21 +135,13 @@ const Analytics = () => {
                   <YAxis label={{ value: 'Temperatura (°C)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
                   <Legend />
-                  <Area 
-                    name="Temperatura Atual" 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="#8884d8" 
-                    fillOpacity={1} 
-                    fill="url(#colorValue)" 
-                  />
-                  <Area 
-                    name="Temperatura Anterior" 
-                    type="monotone" 
-                    dataKey="prevValue" 
-                    stroke="#82ca9d" 
-                    fillOpacity={1} 
-                    fill="url(#colorPrevValue)" 
+                  <Area
+                    name="Temperatura"
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#555286"
+                    fillOpacity={1}
+                    fill="url(#colorValue)"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -163,6 +174,26 @@ const Analytics = () => {
         <Card>
           <CardHeader>
             <CardTitle>Umidade do Ar (%)</CardTitle>
+            <CardDescription>
+              Amostras de umidade do ar em{" "}
+              <select
+                className="inline-block border rounded px-2 py-1"
+                value={selectedDate}
+                onChange={(e) => {
+                  setSelectedDate(e.target.value);
+                }}
+              >
+                {data.climate.date.map((date) => (
+                  <option key={date} value={date}>
+                    {new Date(date).toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    })}
+                  </option>
+                ))}
+              </select>
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
@@ -170,12 +201,8 @@ const Analytics = () => {
                 <AreaChart data={data.climate.humidity}>
                   <defs>
                     <linearGradient id="colorValue3" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#000000" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorPrevValue3" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#880000" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#880000" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -183,21 +210,13 @@ const Analytics = () => {
                   <YAxis label={{ value: 'Umidade (%)', angle: -90, position: 'insideLeft' }} />
                   <Tooltip content={<CustomTooltip active={true} payload={[]} label={""} />} />
                   <Legend />
-                  <Area 
-                    name="Umidade Atual" 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="#000000" 
-                    fillOpacity={1} 
-                    fill="url(#colorValue3)" 
-                  />
-                  <Area 
-                    name="Umidade Anterior" 
-                    type="monotone" 
-                    dataKey="prevValue" 
-                    stroke="#880000" 
-                    fillOpacity={1} 
-                    fill="url(#colorPrevValue3)" 
+                  <Area
+                    name="Umidade"
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#4e795c"
+                    fillOpacity={1}
+                    fill="url(#colorValue3)"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -224,7 +243,7 @@ const Analytics = () => {
                   </svg>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">Umidade Média</h3>
@@ -238,7 +257,7 @@ const Analytics = () => {
                   </svg>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">Dispositivo Mais Comum</h3>

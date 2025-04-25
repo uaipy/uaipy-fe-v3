@@ -5,15 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { 
   LayoutDashboard, 
-  Gauge, 
-  Wifi, 
+  Gauge,
   Settings, 
-  Users, 
-  HardDrive, 
-  BarChart,
   ChevronLeft,
   ChevronRight,
-  Activity,
   X,
   Menu
 } from "lucide-react";
@@ -34,15 +29,10 @@ type SidebarItem = {
 
 const mainNavItems: SidebarItem[] = [
   { icon: LayoutDashboard, label: "Painel", path: "/dashboard" },
-  { icon: Gauge, label: "Analytics", path: "/analytics" },
-  { icon: Wifi, label: "Dispositivos", path: "/devices" },
-  { icon: Activity, label: "Alertas", path: "/alerts" },
+  { icon: Gauge, label: "Análise", path: "/analytics" },
 ];
 
 const secondaryNavItems: SidebarItem[] = [
-  { icon: Users, label: "Time", path: "/team" },
-  { icon: HardDrive, label: "Armazenamento", path: "/storage" },
-  { icon: BarChart, label: "Relatórios", path: "/reports" },
   { icon: Settings, label: "Configurações", path: "/settings" },
 ];
 
@@ -55,7 +45,6 @@ export function Sidebar({ collapsed, onCollapsedChange, isMobile }: SidebarProps
     onCollapsedChange?.(!collapsed);
   };
 
-  // Animation classes
   const sidebarClasses = cn(
     "h-screen fixed left-0 top-0 z-30 flex flex-col bg-sidebar text-sidebar-foreground transition-all duration-300 ease-in-out",
     collapsed ? "w-[70px]" : "w-[240px]",
