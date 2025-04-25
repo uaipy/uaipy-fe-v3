@@ -23,7 +23,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const contentClasses = cn(
     "min-h-screen bg-background text-foreground transition-all duration-300 ease-in-out",
-    "container mx-auto py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6",
+    "w-full py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8",
     sidebarCollapsed ? "ml-[70px]" : "ml-[240px]",
     isMobile ? "ml-0" : ""
   );
